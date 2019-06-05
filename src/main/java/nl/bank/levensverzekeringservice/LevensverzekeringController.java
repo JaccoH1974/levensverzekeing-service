@@ -18,7 +18,7 @@ public class LevensverzekeringController {
     private LevensverzekeringService service;
 
     @RequestMapping
-    ResponseEntity<Double> getPremie(
+    ResponseEntity<Levensverzekering> getVerzekeringsPremieAndRisicoprofiel(
             @QueryParam("verzekerdkapitaal") Double verzekerdkapitaal,
             @QueryParam("geboortedatum") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date geboortedatum,
             @QueryParam("looptijd") Integer looptijd) {
@@ -28,10 +28,9 @@ public class LevensverzekeringController {
             log.debug("Request parm: verzerkerdkapitaal: {}, geboortedatum: {}, looptijd: {}", verzekerdkapitaal, geboortedatum, looptijd);
 
             Levensverzekering levensverzekering = new Levensverzekering();
-            levensverzekering.setGeboortedatum(geboortedatum);
-            levensverzekering.setVerzekerdkapitaal(verzekerdkapitaal);
-            Double premie = service.calculatePremie(verzekerdkapitaal, geboortedatum, looptijd);
-            return ResponseEntity.ok(premie);
+            levensverzekering.setPremie(service.calculatePremie(verzekerdkapitaal, geboortedatum, looptijd));
+            levensverzekering.setRisicoprofiel(service.getRisicoProfiel(geboortedatum));
+            return ResponseEntity.ok(levensverzekering);
         }
 
     }

@@ -1,18 +1,14 @@
 package nl.bank.levensverzekeringservice;
 
 
-import com.github.tomakehurst.wiremock.client.WireMock;
-import org.apache.http.HttpHeaders;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -43,12 +39,14 @@ public class LevensverzekeringControllerTest {
             Double verzekerdKapitaal = 25000d;
             Integer looptijd = 360;
 
-            Double expected_premie = 13.88888888888889d;
+            Levensverzekering expectedLevensverzekering = new Levensverzekering();
+            expectedLevensverzekering.setPremie(13.88888888888889d);
+            expectedLevensverzekering.setRisicoprofiel("risico laag");
 
-            ResponseEntity<Double> response = controller.getPremie(verzekerdKapitaal, geboortedatum, looptijd);
+            ResponseEntity<Levensverzekering> response = controller.getVerzekeringsPremieAndRisicoprofiel(verzekerdKapitaal, geboortedatum, looptijd);
 
             Assertions.assertThat(response.getStatusCode()).isEqualTo(org.springframework.http.HttpStatus.OK);
-            Assertions.assertThat(response.getBody()).isEqualTo(expected_premie);
+            Assertions.assertThat(response.getBody()).isEqualTo(expectedLevensverzekering);
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -66,12 +64,12 @@ public class LevensverzekeringControllerTest {
             Double verzekerdKapitaal = null;
             Integer looptijd = 360;
 
-            Double expected_premie = null;
+            Levensverzekering expectedVerzekering = null;
 
-            ResponseEntity<Double> response = controller.getPremie(verzekerdKapitaal, geboortedatum, looptijd);
+            ResponseEntity<Levensverzekering> response = controller.getVerzekeringsPremieAndRisicoprofiel(verzekerdKapitaal, geboortedatum, looptijd);
 
             Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-            Assertions.assertThat(response.getBody()).isEqualTo(expected_premie);
+            Assertions.assertThat(response.getBody()).isEqualTo(expectedVerzekering);
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -82,16 +80,16 @@ public class LevensverzekeringControllerTest {
     @Test
     public void testGetMaximumLening_Geboortedatum_Null_Error() {
 
-            Date geboortedatum = null;
-            Double verzekerdKapitaal = 25000d;
-            Integer looptijd = 360;
+        Date geboortedatum = null;
+        Double verzekerdKapitaal = 25000d;
+        Integer looptijd = 360;
 
-            Double expected_premie = null;
+        Levensverzekering expectedVerzekering = null;
 
-            ResponseEntity<Double> response = controller.getPremie(verzekerdKapitaal, geboortedatum, looptijd);
+        ResponseEntity<Levensverzekering> response = controller.getVerzekeringsPremieAndRisicoprofiel(verzekerdKapitaal, geboortedatum, looptijd);
 
-            Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-            Assertions.assertThat(response.getBody()).isEqualTo(expected_premie);
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        Assertions.assertThat(response.getBody()).isEqualTo(expectedVerzekering);
 
     }
 
@@ -105,12 +103,12 @@ public class LevensverzekeringControllerTest {
             Double verzekerdKapitaal = 25000d;
             Integer looptijd = null;
 
-            Double expected_premie = null;
+            Levensverzekering expectedVerzekering = null;
 
-            ResponseEntity<Double> response = controller.getPremie(verzekerdKapitaal, geboortedatum, looptijd);
+            ResponseEntity<Levensverzekering> response = controller.getVerzekeringsPremieAndRisicoprofiel(verzekerdKapitaal, geboortedatum, looptijd);
 
             Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-            Assertions.assertThat(response.getBody()).isEqualTo(expected_premie);
+            Assertions.assertThat(response.getBody()).isEqualTo(expectedVerzekering);
 
         } catch (ParseException e) {
             e.printStackTrace();

@@ -21,4 +21,14 @@ public class LevensverzekeringService {
             return premie;
         }
     }
+    public String getRisicoProfiel(Date geboortedatum) {
+        Integer leeftijd = new Date().getYear() - geboortedatum.getYear();
+        if (leeftijd >= 60d ) {
+            return "risico hoog";
+        } else if ((leeftijd >= 30) && (leeftijd < 60)) {
+            return "risico matig";
+        } else {
+            return "risico laag";
+        }
+    }
 }

@@ -10,8 +10,6 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Levensverzekering {
-    private Double verzekerdkapitaal;
-    private Date geboortedatum ;
-    private Integer looptijdInMaanden;
+    private String Risicoprofiel;
     private Double premie;
 }
