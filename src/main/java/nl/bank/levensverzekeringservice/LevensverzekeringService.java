@@ -31,4 +31,7 @@ public class LevensverzekeringService {
             return "risico laag";
         }
     }
+    public Double calculateKorting(Double premie, Double kortingspercentage) {
+        return premie * ((100 - kortingspercentage)/100);
+    }
 }

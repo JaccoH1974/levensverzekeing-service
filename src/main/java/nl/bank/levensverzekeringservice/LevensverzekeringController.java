@@ -21,14 +21,18 @@ public class LevensverzekeringController {
     ResponseEntity<Levensverzekering> getVerzekeringsPremieAndRisicoprofiel(
             @QueryParam("verzekerdkapitaal") Double verzekerdkapitaal,
             @QueryParam("geboortedatum") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date geboortedatum,
-            @QueryParam("looptijd") Integer looptijd) {
+            @QueryParam("looptijd") Integer looptijd //, @QueryParam("kortingspercentage") Double korting
+    ) {
         if (verzekerdkapitaal == null || geboortedatum == null || looptijd == null) {
             return ResponseEntity.badRequest().build();
         } else {
             log.debug("Request parm: verzerkerdkapitaal: {}, geboortedatum: {}, looptijd: {}", verzekerdkapitaal, geboortedatum, looptijd);
 
             Levensverzekering levensverzekering = new Levensverzekering();
-            levensverzekering.setPremie(service.calculatePremie(verzekerdkapitaal, geboortedatum, looptijd));
+            Double premie = service.calculatePremie(verzekerdkapitaal, geboortedatum, looptijd);
+//            Double premieMetKorting =  service.calculateKorting(premie, korting);
+            levensverzekering.setPremie(premie);
+//            levensverzekering.setPremie(premieMetKorting);
             levensverzekering.setRisicoprofiel(service.getRisicoProfiel(geboortedatum));
             return ResponseEntity.ok(levensverzekering);
         }
