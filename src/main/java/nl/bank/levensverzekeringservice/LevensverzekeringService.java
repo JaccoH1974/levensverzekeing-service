@@ -1,6 +1,7 @@
 package nl.bank.levensverzekeringservice;
 
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class LevensverzekeringService {
             return "risico laag";
         }
     }
-    public Double calculateKorting(Double premie, Double kortingspercentage) {
+    public Double calculateKorting(Double premie, @NonNull Double kortingspercentage) {
         return premie * ((100 - kortingspercentage)/100);
     }
 }

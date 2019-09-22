@@ -44,7 +44,7 @@ public class LevensverzekeringControllerTest {
             expectedLevensverzekering.setPremie(13.88888888888889d);
             expectedLevensverzekering.setRisicoprofiel("risico laag");
 
-            ResponseEntity<Levensverzekering> response = controller.getVerzekeringsPremieAndRisicoprofiel(verzekerdKapitaal, geboortedatum, looptijd);
+            ResponseEntity<Levensverzekering> response = controller.getVerzekeringsPremieAndRisicoprofiel(verzekerdKapitaal, geboortedatum, looptijd, null);
 
             Assertions.assertThat(response.getStatusCode()).isEqualTo(org.springframework.http.HttpStatus.OK);
             Assertions.assertThat(response.getBody()).isEqualTo(expectedLevensverzekering);
@@ -67,7 +67,7 @@ public class LevensverzekeringControllerTest {
 
             Levensverzekering expectedVerzekering = null;
 
-            ResponseEntity<Levensverzekering> response = controller.getVerzekeringsPremieAndRisicoprofiel(verzekerdKapitaal, geboortedatum, looptijd);
+            ResponseEntity<Levensverzekering> response = controller.getVerzekeringsPremieAndRisicoprofiel(verzekerdKapitaal, geboortedatum, looptijd, null);
 
             Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
             Assertions.assertThat(response.getBody()).isEqualTo(expectedVerzekering);
@@ -87,7 +87,7 @@ public class LevensverzekeringControllerTest {
 
         Levensverzekering expectedVerzekering = null;
 
-        ResponseEntity<Levensverzekering> response = controller.getVerzekeringsPremieAndRisicoprofiel(verzekerdKapitaal, geboortedatum, looptijd);
+        ResponseEntity<Levensverzekering> response = controller.getVerzekeringsPremieAndRisicoprofiel(verzekerdKapitaal, geboortedatum, looptijd, null);
 
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         Assertions.assertThat(response.getBody()).isEqualTo(expectedVerzekering);
@@ -106,7 +106,7 @@ public class LevensverzekeringControllerTest {
 
             Levensverzekering expectedVerzekering = null;
 
-            ResponseEntity<Levensverzekering> response = controller.getVerzekeringsPremieAndRisicoprofiel(verzekerdKapitaal, geboortedatum, looptijd);
+            ResponseEntity<Levensverzekering> response = controller.getVerzekeringsPremieAndRisicoprofiel(verzekerdKapitaal, geboortedatum, looptijd, null);
 
             Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
             Assertions.assertThat(response.getBody()).isEqualTo(expectedVerzekering);

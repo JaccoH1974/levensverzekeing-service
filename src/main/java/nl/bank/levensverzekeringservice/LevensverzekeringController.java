@@ -7,8 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.QueryParam;
 import java.util.Date;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -21,8 +23,8 @@ public class LevensverzekeringController {
     ResponseEntity<Levensverzekering> getVerzekeringsPremieAndRisicoprofiel(
             @QueryParam("verzekerdkapitaal") Double verzekerdkapitaal,
             @QueryParam("geboortedatum") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date geboortedatum,
-            @QueryParam("looptijd") Integer looptijd //, @QueryParam("kortingspercentage") Double korting
-    ) {
+            @QueryParam("looptijd") Integer looptijd,
+            @QueryParam("kortingspercentage") Optional<Double> kortingspercentage) {
         if (verzekerdkapitaal == null || geboortedatum == null || looptijd == null) {
             return ResponseEntity.badRequest().build();
         } else {
@@ -30,9 +32,13 @@ public class LevensverzekeringController {
 
             Levensverzekering levensverzekering = new Levensverzekering();
             Double premie = service.calculatePremie(verzekerdkapitaal, geboortedatum, looptijd);
-//            Double premieMetKorting =  service.calculateKorting(premie, korting);
             levensverzekering.setPremie(premie);
-//            levensverzekering.setPremie(premieMetKorting);
+            Double premieMetKorting = 0d;
+            if (kortingspercentage.isPresent() ) {
+                premieMetKorting = service.calculateKorting(premie, kortingspercentage.get());
+                levensverzekering.setPremie(premieMetKorting);
+            }
+
             levensverzekering.setRisicoprofiel(service.getRisicoProfiel(geboortedatum));
             return ResponseEntity.ok(levensverzekering);
         }
